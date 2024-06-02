@@ -5,7 +5,7 @@ const chatContainer = document.getElementById("chatContainer");
 let user = { message: "" };
 
 let arrayOfPossibleMessage = [
-  { message: "Hello", response: "Hi, how can I serve you?" },
+  { message: "hello", response: "Hi, how can I serve you?" },
 ];
 
 const sendMessage = (userMessage) => {
@@ -29,6 +29,9 @@ const chatbotResponse = (userMessage) => {
   }
   // search the array for possible response
   //   filter each object and regex to lowercase
+  //   else if(userMessage == "Hello"){
+
+  //   }
   else if (userMessage.length > 3) {
     const result = arrayOfPossibleMessage.filter((val) =>
       val.message.includes(userMessage)
@@ -36,11 +39,11 @@ const chatbotResponse = (userMessage) => {
     // alert(userMessage.toLowerCase());
     // alert(result[0]);
     if (result.length > 0) {
-        // pick the response in the first object found
-        const response = result[0].response;
-        chatbotMessage = response
+      // pick the response in the first object found
+      const response = result[0].response;
+      chatbotMessage = response;
     } else {
-        chatbotMessage = "say something else or exit"
+      chatbotMessage = "say something else or exit";
     }
   }
 
