@@ -6,40 +6,69 @@ let userGreeting = { greeting: null };
 let user = { message: null };
 
 let userMenu = { menu: null };
+let userMenuSelection = { selection: null };
 
 let possibleGreetings =
   "Welcome! How may I serve you today? <br> Please select from the list below: <br>Select 1 to Place an order <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order";
 const chatbotError =
   "Oops! I am a new bot in town and learning with time. I start a chat with hello or you can type end chat";
 let menu =
-  "Please select from the list below: <br>Select 11 for fiesta rice <br>Select 12 for spaghetti <br>Select 13 for fried rice <br>Select 14 for yam and egg sauce <br>Select 0 or say type end chat to cancel order";
+  "Please select from the list below: <br>Select 11 for fiesta rice <br>Select 12 for spaghetti <br>Select 13 for fried rice <br>Select 14 for yam and egg sauce <br>Select 0 or type end chat to cancel order";
 let arrayOfPossibleOrder = [
   { select: "11", response: "you have selected fiesta rice" },
   { select: "12", response: "Spaghetti coming in hot" },
   { select: "14", response: "you have selected fried rice" },
   { select: "13", response: "oh! yam and egg sauce it is" },
 ];
-const sendChatbotResponse = (userMessageText, chatbotError) => {
+
+const chatbotResponse = (userMessageText, chatbotError) => {
   sendMessage(userMessageText);
   chatbotBasic(chatbotError);
 };
+
 const checkGreeting = (userMessage) => {
-  console.log(userGreeting.greeting);
+  console.log("empty", userGreeting.greeting);
   let userMessageText = userMessage.trim();
 
   textbox.value = "";
 
-  sendChatbotResponse(userMessageText, chatbotError);
+  chatbotResponse(userMessageText, chatbotError);
 };
 
 const checkEndchat = (userMessage) => {
-  console.log(user.message);
+  let userMessageText = userMessage;
+  user.message = userMessageText;
 
-  let userMessageText = userMessage.trim();
+  userGreeting = { greeting: null };
 
+  userMenu = { menu: null };
+  userMenuSelection = { selection: null };
+
+  console.log("start", user.message);
+  console.log("empty", userGreeting.greeting);
+  console.log("empty", userMenu.menu);
+  console.log("empty", userMenuSelection.selection, "end");
   textbox.value = "";
 
-  sendChatbotResponse(userMessageText, chatbotError);
+  sendMessage(userMessageText);
+  alert("Have a nice time");
+};
+
+const checkMenu = (userMessage) => {
+  let userMessageText = userMessage.trim();
+  console.log("empty", userMenu.menu);
+
+  textbox.value = "";
+  let chatbotMessage = possibleGreetings;
+
+  chatbotResponse(userMessageText, chatbotMessage);
+};
+
+const chatbotSendMenu = (userMessageText) => {
+  textbox.value = "";
+  let chatbotMenuResponse = menu;
+
+  chatbotResponse(userMessageText, chatbotMenuResponse);
 };
 
 const sendMessage = (userMessage) => {
@@ -81,129 +110,100 @@ sendBtn.addEventListener("click", (e) => {
     alert("Please type a message");
   } else if (userMessage == "end chat") {
     // if user wants to exit
-    let userMessageText = userMessage;
-    user.message = userMessageText;
-
-    userGreeting = { greeting: null };
-
-    userMenu = { menu: null };
-
-    console.log(user.message);
-    console.log(userGreeting.greeting);
-    console.log(userMenu.menu);
-    textbox.value = "";
-
-    sendMessage(userMessageText);
-    alert("Have a nice time");
+    checkEndchat(userMessage);
   } else if (userMessage == "hello") {
-    //if it is a greeting
-    // remove whitespace
-    let userMessageText = userMessage.trim();
-    // alert(userMessageText)
-    userGreeting.greeting = userMessageText;
-    console.log(userGreeting.greeting);
+    // a check to not allow a restart
+    if (userMenu.menu == "1") {
+      console.log("oops!", userMenu.menu);
 
-    textbox.value = "";
-
-    // re write code here to use dynamic function
-    sendMessage(userMessageText);
-    // console.log(user)
-
-    let chatbotMessage = possibleGreetings;
-    chatbotBasic(chatbotMessage);
-  }
-  else if (userMessage == "Hello") {
-    //if it is a greeting
-    // remove whitespace
-    let userMessageText = userMessage.trim();
-    // alert(userMessageText)
-    userGreeting.greeting = userMessageText;
-    console.log(userGreeting.greeting);
-
-    textbox.value = "";
-
-    // re write code here to use dynamic function
-    sendMessage(userMessageText);
-    // console.log(user)
-
-    let chatbotMessage = possibleGreetings;
-    chatbotBasic(chatbotMessage);
-  }
-  else if (userMessage == 1) {
-    if (userGreeting.greeting == null ) {
-      console.log(userGreeting.greeting);
+      chatbotSendMenu(userMessage);
+    } else {
+      //if it is a greeting
+      // remove whitespace
       let userMessageText = userMessage.trim();
+      // alert(userMessageText)
+      userGreeting.greeting = userMessageText;
+      console.log("start", userGreeting.greeting);
 
       textbox.value = "";
 
-      sendChatbotResponse(userMessageText, chatbotError);
-      // } else if (user.message == "end chat") {
-      //   console.log(user.message);
+      // re write code here to use dynamic function
+      sendMessage(userMessageText);
+      // console.log(user)
 
-      //   let userMessageText = userMessage.trim();
+      let chatbotMessage = possibleGreetings;
+      chatbotBasic(chatbotMessage);
+    }
+  } else if (userMessage == "Hello") {
+    // a check to not allow a restart
+    if (userMenu.menu == "1") {
+      console.log("oops!", userMenu.menu);
 
-      //   textbox.value = "";
+      chatbotSendMenu(userMessage);
+    }
+    if (userMenuSelection.selection != null) {
+      console.log("oops!", userMenu.menu);
 
-      //   sendChatbotResponse(userMessageText, chatbotError);
+      chatbotSendMenu(userMessage);
     } else {
-      console.log(userGreeting.greeting);
+      //if it is a greeting
+      // remove whitespace
+      let userMessageText = userMessage.trim();
+      // alert(userMessageText)
+      userGreeting.greeting = userMessageText;
+      console.log("start", userGreeting.greeting);
+
+      textbox.value = "";
+
+      // re write code here to use dynamic function
+      sendMessage(userMessageText);
+      // console.log(user)
+
+      let chatbotMessage = possibleGreetings;
+      chatbotBasic(chatbotMessage);
+    }
+  } else if (userMessage == 1) {
+    if (userGreeting.greeting == null) {
+      checkGreeting(userMessage);
+    } else {
+      console.log("start", userGreeting.greeting);
 
       let userMessageText = userMessage.trim();
       userMenu.menu = userMessageText;
-      console.log(userMenu.menu);
+      console.log("menu is", userMenu.menu);
+
+      chatbotSendMenu(userMessageText);
+    }
+  } else if (userMessage == 11) {
+    if (userGreeting.greeting == null) {
+      checkGreeting(userMessage);
+    } else if (userMenu == null) {
+      console.log("start", userGreeting.greeting);
+
+      checkMenu(userMessage);
+    } else {
+      let userMessageText = userMessage.trim();
+
+      console.log("start", userGreeting.greeting);
+      console.log("menu is", userMenu.menu);
 
       textbox.value = "";
-      let chatbotMenuResponse = menu;
+      userMenuSelection.selection = userMessageText;
+      console.log("menu selection is", userMenuSelection.selection);
 
-      sendChatbotResponse(userMessageText, chatbotMenuResponse);
+      const result = arrayOfPossibleOrder.filter((val) =>
+        val.select.includes(userMessage)
+      );
+
+      // pick the response in the first object found
+      const response = result[0].response;
+      const chatbotConfirmSelect = response;
+
+      chatbotResponse(userMessageText, chatbotConfirmSelect);
     }
-  }
-  // else if (userMessage == 11) {
-  //   if (userGreeting.greeting == undefined) {
-  //     checkGreeting(userMessage);
-
-  // console.log(userGreeting.greeting);
-  // let userMessageText = userMessage.trim();
-
-  // textbox.value = "";
-
-  // sendChatbotResponse(userMessageText, chatbotError);
-  // } else if (user.message == "end chat") {
-  //   checkEndchat(userMessage);
-  // console.log(user.message);
-
-  // let userMessageText = userMessage.trim();
-
-  // textbox.value = "";
-
-  // sendChatbotResponse(userMessageText, chatbotError);
-  // }
-  // else if (userMenu != 1) {
-  //   let userMessageText = userMessage.trim();
-  //   // user.message = userMessageText;
-  //   textbox.value = "";
-  //   let chatbotMenuResponse = menu;
-
-  //   sendChatbotResponse(userMessageText, chatbotMenuResponse);
-  // } else {
-  //   // let userMessageText = userMessage.trim();
-  //   // user.message = userMessageText;
-  //   textbox.value = "";
-
-  //   const result = arrayOfPossibleOrder.filter((val) =>
-  //     val.select.includes(userMessage)
-  //   );
-
-  //   // pick the response in the first object found
-  //   const response = result[0].response;
-  //   const chatbotConfirmSelect = response;
-
-  //   sendChatbotResponse(userMessageText, chatbotConfirmSelect);
-  // }
-  // }
-  else {
+  } else {
     let userMessageText = userMessage.trim();
     textbox.value = "";
-    sendChatbotResponse(userMessageText, chatbotError);
+    chatbotResponse(userMessageText, chatbotError);
   }
 });
