@@ -7,7 +7,7 @@ let user = { message: null };
 let userGreeting = { greeting: null };
 let userOption = { option: null };
 
-let userSelectedOrder = { order: null };
+let userSelectedOrder = [];
 let userCheckout = [];
 
 // arrays
@@ -34,6 +34,8 @@ let arrayOfOptions = [
     select: "1",
     response:
       "Please select from the list below: <br>Select 22 for fiesta rice <br>Select 33 for spaghetti <br>Select 44 for fried rice <br>Select 55 for yam and egg sauce <br>Select 0 or type end chat to cancel order",
+    addMore:
+      "To add more please select from the list below: <br>Select 22 for fiesta rice <br>Select 33 for spaghetti <br>Select 44 for fried rice <br>Select 55 for yam and egg sauce <br>Select 0 or type end chat to cancel order",
   },
   // { select: "99", response: "checkout order" },
   // { select: "98", response: "order history" },
@@ -43,24 +45,27 @@ let arrayOfOptions = [
 let arrayOfPossibleOrder = [
   {
     select: "22",
-    item: "Fiesta rice",
+    name: "Fiesta rice",
     response:
-      "You have selected fiesta rice. <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
+      "You have selected fiesta rice. <br>Select 77 to place add more <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
   },
   {
     select: "33",
+    name: "Spaghetti rice",
     response:
-      "Spaghetti coming in hot. <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
+      "Spaghetti coming in hot. <br>Select 77 to place add more <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
   },
   {
     select: "44",
+    name: "Fried rice",
     response:
-      "You have selected fried rice. <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
+      "You have selected fried rice. <br>Select 77 to place add more <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
   },
   {
     select: "55",
+    name: "Yam and egg sauce",
     response:
-      "Oh! yam and egg sauce it is. <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
+      "Oh! yam and egg sauce it is. <br>Select 77 to place add more <br>Select 99 to checkout order <br>Select 98 to see order history <br>Select 97 to see current order <br>Select 0 or type end chat to cancel order",
   },
 ];
 
@@ -147,32 +152,25 @@ sendBtn.addEventListener("click", (e) => {
       val.select.includes(userMessage)
     );
     if (greetings.length > 0) {
-      if (userSelectedOrder.order == null) {
-        if (userOption.option == null) {
-          if (userGreeting.greeting == null) {
-            console.log("over here");
-            userGreeting.greeting = userMessageText;
+      // if (!userSelectedOrder > 0) {
+      if (userOption.option == null) {
+        if (userGreeting.greeting == null) {
+          console.log("over here");
+          userGreeting.greeting = userMessageText;
 
-            let response = greetings[0].response;
+          let response = greetings[0].response;
 
-            console.log("start", user.message);
-            console.log(userGreeting.greeting);
-            console.log(userOption.option);
-            console.log(userSelectedOrder.order, "end");
+          console.log("start", user.message);
+          console.log(userGreeting.greeting);
+          console.log(userOption.option);
+          console.log(userSelectedOrder.order, "end");
 
-            return chatbotResponse(userMessageText, response);
-            //  greetings = null
-          } else {
-            // let userMessageText = userMessage.trim();
-            // textbox.value = "";
-            console.log("here");
-            return chatbotResponse(userMessageText, userSelectError);
-          }
+          return chatbotResponse(userMessageText, response);
+          //  greetings = null
         } else {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-
           return chatbotResponse(userMessageText, userSelectError);
         }
       } else {
@@ -182,26 +180,27 @@ sendBtn.addEventListener("click", (e) => {
 
         return chatbotResponse(userMessageText, userSelectError);
       }
+      // } else {
+      //   // let userMessageText = userMessage.trim();
+      //   // textbox.value = "";
+      //   console.log("here");
+
+      //   return chatbotResponse(userMessageText, userSelectError);
+      // }
     } else if (options.length > 0) {
-      if (userSelectedOrder.order == null) {
-        if (userOption.option == null) {
-          if (userGreeting.greeting != null) {
-            userOption.option = userMessageText;
+      // if (!userSelectedOrder.length > 0) {
+      if (userOption.option == null) {
+        if (userGreeting.greeting != null) {
+          userOption.option = userMessageText;
 
-            let response = options[0].response;
+          let response = options[0].response;
 
-            console.log("start", user.message);
-            console.log(userGreeting.greeting);
-            console.log(userOption.option);
-            console.log(userSelectedOrder.order, "end");
+          console.log("start", user.message);
+          console.log(userGreeting.greeting);
+          console.log(userOption.option);
+          console.log(userSelectedOrder.order, "end");
 
-            return chatbotResponse(userMessageText, response);
-          } else {
-            // let userMessageText = userMessage.trim();
-            // textbox.value = "";
-            console.log("here");
-            return chatbotResponse(userMessageText, userSelectError);
-          }
+          return chatbotResponse(userMessageText, response);
         } else {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
@@ -214,17 +213,70 @@ sendBtn.addEventListener("click", (e) => {
         console.log("here");
         return chatbotResponse(userMessageText, userSelectError);
       }
+      // } else {
+      //   // let userMessageText = userMessage.trim();
+      //   // textbox.value = "";
+      //   console.log("here");
+      //   return chatbotResponse(userMessageText, userSelectError);
+      // }
     } else if (selectedOrder.length > 0) {
-      if (userSelectedOrder.order == null) {
+      // if (userSelectedOrder.order == null) {
+      if (userOption.option != null) {
+        if (userGreeting.greeting != null) {
+          let response = selectedOrder[0].response;
+
+          userSelectedOrder.push({
+            order: userMessageText,
+            name: selectedOrder[0].name,
+          });
+
+          let number = userSelectedOrder.length;
+
+          const n = number - 1;
+          // console.log(n)
+
+          console.log("start", user.message);
+          console.log(userGreeting.greeting);
+          console.log(userOption.option);
+          console.log(userSelectedOrder[n].name);
+          console.log(`you have ${number} order(s)`);
+
+          console.log("end");
+
+          return chatbotResponse(userMessageText, response);
+        } else {
+          // let userMessageText = userMessage.trim();
+          // textbox.value = "";
+          console.log("here");
+          return chatbotResponse(userMessageText, userSelectError);
+        }
+      } else {
+        // let userMessageText = userMessage.trim();
+        // textbox.value = "";
+        console.log("here");
+        return chatbotResponse(userMessageText, userSelectError);
+      }
+      // }
+      // else {
+      //   // let userMessageText = userMessage.trim();
+      //   // textbox.value = "";
+      //   console.log("here");
+      //   return chatbotResponse(userMessageText, userSelectError);
+      // }
+    } else if (userMessage == 77) {
+      if (userSelectedOrder.length > 0) {
         if (userOption.option != null) {
           if (userGreeting.greeting != null) {
-            userSelectedOrder.order = userMessageText;
+            // userSelectedOrder.order = userMessageText;
+            let number = userSelectedOrder.length;
 
-            let response = selectedOrder[0].response;
+            let response = arrayOfOptions[0].addMore;
+
             console.log("start", user.message);
             console.log(userGreeting.greeting);
             console.log(userOption.option);
-            console.log(userSelectedOrder.order, "end");
+            console.log(`you have ${number} order(s)`);
+            console.log("to add more, end");
 
             return chatbotResponse(userMessageText, response);
           } else {
@@ -248,24 +300,33 @@ sendBtn.addEventListener("click", (e) => {
     } else if (userMessage == 99) {
       if (userGreeting.greeting != null) {
         if (userOption.option != null) {
-          if (userSelectedOrder.order != null) {
-            const key = userSelectedOrder.order;
-            console.log(key);
-            const order = arrayOfPossibleOrder.filter((val) =>
-              val.select.includes(key)
-            );
-            console.log(order);
+          if (userSelectedOrder.length > 0) {
+            // const key = userSelectedOrder.order;
+            // console.log(key);
+            // const order = arrayOfPossibleOrder.filter((val) =>
+            //   val.select.includes(key)
+            // );
+            // console.log(order);
 
-            const item = order[0].item;
-            console.log(item);
+            // const item = order[0].item;
+            // console.log(item);
 
-            userCheckout.push({ order: `${item}` });
+            // userCheckout.push({ order: `${item}` });
+            //
+            let iterator = userSelectedOrder.values();
 
-            let response = "order placed";
+            for (let elements of iterator) {
+              console.log(elements.name);
+              userCheckout.push({ order: `${elements.name}` });
+            }
+            arrayLength = userCheckout.length;
+
+            let response = `${arrayLength} order(s) placed`;
+
             console.log("start", user.message);
             console.log(userGreeting.greeting);
             console.log(userOption.option);
-            console.log(userSelectedOrder.order);
+            console.log(`you have ${arrayLength} order(s)`);
             console.log(userCheckout, "end");
 
             return chatbotResponse(userMessageText, response);
