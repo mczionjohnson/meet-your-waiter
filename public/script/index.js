@@ -29,6 +29,8 @@ const chatbotError =
 const userSelectError =
   "Oops! Select a correct option or you can type end chat to cancel order";
 
+const noOrderFound = "No order found";
+
 let arrayOfOptions = [
   {
     select: "1",
@@ -163,7 +165,7 @@ sendBtn.addEventListener("click", (e) => {
           console.log("start", user.message);
           console.log(userGreeting.greeting);
           console.log(userOption.option);
-          console.log(userSelectedOrder.order, "end");
+          console.log(userSelectedOrder, "end");
 
           return chatbotResponse(userMessageText, response);
           //  greetings = null
@@ -205,7 +207,7 @@ sendBtn.addEventListener("click", (e) => {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-          return chatbotResponse(userMessageText, userSelectError);
+          return chatbotResponse(userMessageText, chatbotError);
         }
       } else {
         // let userMessageText = userMessage.trim();
@@ -248,7 +250,7 @@ sendBtn.addEventListener("click", (e) => {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-          return chatbotResponse(userMessageText, userSelectError);
+          return chatbotResponse(userMessageText, chatbotError);
         }
       } else {
         // let userMessageText = userMessage.trim();
@@ -264,9 +266,9 @@ sendBtn.addEventListener("click", (e) => {
       //   return chatbotResponse(userMessageText, userSelectError);
       // }
     } else if (userMessage == 77) {
-      if (userSelectedOrder.length > 0) {
+      if (userGreeting.greeting != null) {
         if (userOption.option != null) {
-          if (userGreeting.greeting != null) {
+          if (userSelectedOrder.length > 0) {
             // userSelectedOrder.order = userMessageText;
             let number = userSelectedOrder.length;
 
@@ -295,7 +297,7 @@ sendBtn.addEventListener("click", (e) => {
         // let userMessageText = userMessage.trim();
         // textbox.value = "";
         console.log("here");
-        return chatbotResponse(userMessageText, userSelectError);
+        return chatbotResponse(userMessageText, chatbotError);
       }
     } else if (userMessage == 99) {
       if (userGreeting.greeting != null) {
@@ -334,26 +336,25 @@ sendBtn.addEventListener("click", (e) => {
             // let userMessageText = userMessage.trim();
             // textbox.value = "";
             console.log("here");
-            const noOrderFound = "No order to place";
             return chatbotResponse(userMessageText, noOrderFound);
           }
         } else {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-          return chatbotResponse(userMessageText, userSelectError);
+          return chatbotResponse(userMessageText, noOrderFound);
         }
       } else {
         // let userMessageText = userMessage.trim();
         // textbox.value = "";
         console.log("here");
-        return chatbotResponse(userMessageText, userSelectError);
+        return chatbotResponse(userMessageText, chatbotError);
       }
     } else if (userMessage == 97) {
       if (userGreeting.greeting != null) {
         if (userOption.option != null) {
-          if (userSelectedOrder.order != null) {
-            if (userCheckout.length != null) {
+          if (userSelectedOrder.length > 0) {
+            if (userCheckout.length > 0) {
               const arrayLength = userCheckout.length;
               // console.log(arrayLength)
 
@@ -368,7 +369,7 @@ sendBtn.addEventListener("click", (e) => {
               console.log("start", user.message);
               console.log(userGreeting.greeting);
               console.log(userOption.option);
-              console.log(userSelectedOrder.order);
+              console.log(`you have ${arrayLength} order(s)`);
               console.log(userCheckout, "end");
               console.log(response, "end");
 
@@ -385,28 +386,28 @@ sendBtn.addEventListener("click", (e) => {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-          return chatbotResponse(userMessageText, userSelectError);
+          return chatbotResponse(userMessageText, noOrderFound);
         }
       } else {
         // let userMessageText = userMessage.trim();
         // textbox.value = "";
         console.log("here");
-        return chatbotResponse(userMessageText, userSelectError);
+        return chatbotResponse(userMessageText, chatbotError);
       }
     } else if (userMessage == 98) {
       if (userGreeting.greeting != null) {
         if (userOption.option != null) {
-          if (userSelectedOrder.order != null) {
-            if (userCheckout.length != null) {
-              const length = userCheckout.length;
+          if (userSelectedOrder.length > 0) {
+            if (userCheckout.length > 0) {
+              const arrayLength = userCheckout.length;
               sendMessage(userMessageText);
 
               console.log("start", user.message);
               console.log(userGreeting.greeting);
               console.log(userOption.option);
-              console.log(userSelectedOrder.order);
-              console.log(userCheckout);
-              console.log(length, "end");
+              console.log(`you have ${arrayLength} order(s)`);
+              console.log(userCheckout, "end");
+              console.log(response, "end");
 
               let iterator = userCheckout.values();
 
@@ -429,19 +430,22 @@ sendBtn.addEventListener("click", (e) => {
           // let userMessageText = userMessage.trim();
           // textbox.value = "";
           console.log("here");
-          return chatbotResponse(userMessageText, userSelectError);
+          return chatbotResponse(userMessageText, noOrderFound);
         }
       } else {
         // let userMessageText = userMessage.trim();
         // textbox.value = "";
         console.log("here");
-        return chatbotResponse(userMessageText, userSelectError);
+        return chatbotResponse(userMessageText, chatbotError);
       }
     } else {
-      // let userMessageText = userMessage.trim();
-      // textbox.value = "";
-      console.log("here");
-      return chatbotResponse(userMessageText, userSelectError);
+      if (userGreeting.greeting != null) {
+        console.log("here");
+        return chatbotResponse(userMessageText, userSelectError);
+      } else {
+        console.log("here");
+        return chatbotResponse(userMessageText, chatbotError);
+      }
     }
   } else {
     // catch else
