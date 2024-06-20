@@ -131,6 +131,7 @@ dist
 
 # notes
 note.txt
+package.lock.json
 main.js
 mainOne.js
 mainTwo.js
